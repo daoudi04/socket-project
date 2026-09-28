@@ -7,11 +7,9 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-int main(void)
-{
-    int socket_client;
+int main() {
 
-    socket_client = socket(AF_INET, SOCK_STREAM, 0);
+    int socket_client = socket(AF_INET, SOCK_STREAM, 0);
 
     if (socket_client == -1)
     {
@@ -26,7 +24,7 @@ int main(void)
 
     if (inet_pton(AF_INET,
                   "127.0.0.1",
-                  &server_addr.sin_addr) != 1)
+                  &server_addr.sin_addr.s_addr) != 1)
     {
         perror("inet_pton");
         close(socket_client);
@@ -106,5 +104,5 @@ int main(void)
 
     close(socket_client);
 
-    return EXIT_SUCCESS;
+    return 0;
 }

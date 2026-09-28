@@ -6,8 +6,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-int main(void)
-{
+int main() {
     int socket_serveur;
 
     socket_serveur = socket(AF_INET, SOCK_STREAM, 0);
@@ -15,19 +14,6 @@ int main(void)
     if (socket_serveur == -1)
     {
         perror("socket");
-        return EXIT_FAILURE;
-    }
-
-    int opt = 1;
-
-    if (setsockopt(socket_serveur,
-                   SOL_SOCKET,
-                   SO_REUSEADDR,
-                   &opt,
-                   sizeof(opt)) == -1)
-    {
-        perror("setsockopt");
-        close(socket_serveur);
         return EXIT_FAILURE;
     }
 
@@ -55,9 +41,12 @@ int main(void)
 
     printf("Serveur en attente sur le port 3000...\n");
 
-    int client_socket;
+    struct sockaddr_in client_addr;
+    int clientAdressSize = sizeof(struct sockaddr_in);
 
-    client_socket = accept(socket_serveur, NULL, NULL);
+
+
+    int client_socket = accept(socket_serveur, (struct sockaddr *)&client_addr , &clientAdressSize);
 
     if (client_socket == -1)
     {
@@ -131,5 +120,5 @@ int main(void)
     close(client_socket);
     close(socket_serveur);
 
-    return EXIT_SUCCESS;
+    return 0;
 }
